@@ -8,3 +8,4 @@ class Moves:
         self.type = type #name of the type
         self.damage = damage #unaltered damage amount
         
+

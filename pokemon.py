@@ -1,11 +1,9 @@
 from moves import Moves
+from character import Character
 
 #Pokemon object that can battle
-class Pokemon(object):
-    typeChart = {'fire': 
-        {'fire': 0.5, 'grass': 2.0, 'water':0.5},
-        'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},
-        'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
+class Pokemon(Character):
+
          #determines the type effectiveness for the attacking Pokemon
     def __init__(self, name, HP, Damage, type): 
         self.name = name #sets the name of the Pokemon
@@ -28,6 +26,17 @@ class Pokemon(object):
         #Updates self.current_HP to reflect damage taken
         self.current_HP -= damage
 
+    def calculate_damage(self, move_type, damage_amount):
+        typeChart = {'fire': 
+        {'fire': 0.5, 'grass': 2.0, 'water':0.5},
+        'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},
+        'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
+
+        conversion_dict = typeChart[self.type]
+        #how does self.poketype access the Pokemon's type
+
+        calculate_damage = damage_amount * conversion_dict[move_type]
+
     def isAlive(self):
         #Checks to see is the Pokemon has or has not fainted
         if self.current_HP <= 0:
@@ -47,26 +56,25 @@ class Pokemon(object):
         #I want to do something similar to the superhero dueler, so I'll have the 
         #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
-        select_move = input(f"Select your move: \n  
-        [1]{self.moves[1]} , 
-        [2]{self.moves[2]} , 
-        [3]{self.moves[3]} 
-        [4]{self.moves[4]} ")
-        if select_move = "1":
-            #choose the move and attack the opponent with the move
-        #ability.attack self.opponent?
-        #Whats different about this than the superhero dueler
-        #is that im not using every move, instead, the Pokemon 
-        #can only attack with one move per turn
-        #so it would have to be something like move.attack()
-            #TODO:where would the target go
-            #TODO:how would the specfic move be passed in?
-        if select_move = "2":
-            #choose the move and attack the opponent with the move
-        if select_move = "3":
-            #choose the move and attack the opponent with the move
-        if select_move = "4":
-            #choose the move and attack the opponent with the move
+            select_move = input(f"Select your move: \n[1]{self.moves[1]} \n, [2]{self.moves[2]} \n , \n[3]{self.moves[3]} \n[4]{self.moves[4]} ")
+            if select_move == "1":
+                pass
+                #choose the move and attack the opponent with the move
+            #ability.attack self.opponent?
+            #Whats different about this than the superhero dueler
+            #is that im not using every move, instead, the Pokemon 
+            #can only attack with one move per turn
+            #so it would have to be something like move.attack()
+                #TODO:where would the target go
+                #TODO:how would the specfic move be passed in?
+            if select_move == "2":
+                pass
+                #choose the move and attack the opponent with the move
+            if select_move == "3":
+                pass
+                #choose the move and attack the opponent with the move
+            if select_move == "4":
+                pass                #choose the move and attack the opponent with the move
 
 
 

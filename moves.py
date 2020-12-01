@@ -8,10 +8,3 @@ class Moves:
         self.type = type #name of the type
         self.damage = damage #unaltered damage amount
         
-    def attack(self):
-        total_damage = 0
-        #calculate attack damage by taking the moves' damage, then check the type between
-        #the moves' type and the opponents type.
-        #take that value and multiply the attack damage by it to get attack damage
-        attackDamage = self.Damage * self.attackingDict[self.type][Opponent.type]
-        return attackDamage

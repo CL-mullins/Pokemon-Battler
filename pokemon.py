@@ -30,15 +30,11 @@ class Pokemon(Character):
 
     def calculate_damage(self, move_type, damage_amount):
         #This calculates the damage done based on pokemon type
-        typeChart = {'fire': 
-        {'fire': 0.5, 'grass': 2.0, 'water':0.5},
-        'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},
-        'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
-
+        typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
         conversion_dict = typeChart[self.type]
-        #how does self.poketype access the Pokemon's type
-
-        calculate_damage = damage_amount * conversion_dict[move_type]
+        #first value in dictionary
+        damage = damage_amount * conversion_dict[move_type]
+        return damage
 
     def isAlive(self):
         #Checks to see is the Pokemon has or has not fainted
@@ -59,11 +55,11 @@ class Pokemon(Character):
         #I want to do something similar to the superhero dueler, so I'll have the 
         #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
-            select_move = input(f"Select your move: \n[1]{self.moves[0].name},\n[2]{self.moves[1].name}, \n[3]{self.moves[2].name}, \n[4]{self.moves[3].name} ")
+            select_move = input(f"Select your move: \n[1]{self.moves[0].name},\n[2]{self.moves[1].name}, \n[3]{self.moves[2].name}, \n[4]{self.moves[3].name}\n Enter:  ")
             #I want this function to display the name of each move
-            #if select_move == "1":
-             #   calculate_damage(self.type, self.moves[0].damage)
-             #   return damage
+            if select_move == "1":
+                calculate_damage(self.type, self.moves[0].damage)
+                print(damage)
                 #choose the move and attack the opponent with the move
             #ability.attack self.opponent?
             #Whats different about this than the superhero dueler

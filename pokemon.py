@@ -30,10 +30,12 @@ class Pokemon(Character):
 
     def calculate_damage(self, move_type, damage_amount, opponent_type):
         #This calculates the damage done based on pokemon type
+        #Ex. typeChart =  {move_type: {opponent_type: damage outcome}}
         typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
-        conversion_dict = typeChart[self.type]
+        conversion_dict = typeChart[move_type]
+
         #first value in dictionary
-        damage = damage_amount * conversion_dict[move_type]
+        damage = damage_amount * conversion_dict[opponent_type]
         return damage
 
     def isAlive(self):
@@ -58,7 +60,10 @@ class Pokemon(Character):
             select_move = input(f"Select your move: \n[1]{self.moves[0].name},\n[2]{self.moves[1].name}, \n[3]{self.moves[2].name}, \n[4]{self.moves[3].name}\n Enter:  ")
             #I want this function to display the name of each move
             if select_move == "1":
-                self.calculate_damage(self.type, self.moves[0].damage, opponent.type)
+                print(self.calculate_damage(self.type, self.moves[0].damage, opponent.type))
+                opponentDamage = self.calculate_damage(self.type, self.moves[0].damage, opponent.type)
+                opponent.take_damage(opponentDamage)
+                print(opponent.current_HP)
                 #choose the move and attack the opponent with the move
             #ability.attack self.opponent?
             #Whats different about this than the superhero dueler

@@ -1,6 +1,7 @@
 from moves import Moves
 from moves import *
 from character import Character
+import random
 
 #Pokemon object that can battle
 class Pokemon(Character):
@@ -31,7 +32,7 @@ class Pokemon(Character):
     def calculate_damage(self, move_type, damage_amount, opponent_type):
         #This calculates the damage done based on pokemon type
         #Ex. typeChart =  {move_type: {opponent_type: damage outcome}}
-        typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5}}
+        typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5, 'normal': 1},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0, 'normal': 1},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5, 'normal': 1},'normal': {'fire': 1, 'grass': 1, 'water': 1, 'normal': 1}}
         conversion_dict = typeChart[move_type]
 
         #first value in dictionary
@@ -58,29 +59,40 @@ class Pokemon(Character):
         #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
             select_move = input(f"Select your move: \n[1]{self.moves[0].name},\n[2]{self.moves[1].name}, \n[3]{self.moves[2].name}, \n[4]{self.moves[3].name}\n Enter:  ")
-            #I want this function to display the name of each move
+            #Each move attacks and does damage
             if select_move == "1":
-                print(self.calculate_damage(self.type, self.moves[0].damage, opponent.type))
-                opponentDamage = self.calculate_damage(self.type, self.moves[0].damage, opponent.type)
+                print(f'{self.name} did {self.calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
+                opponentDamage = self.calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
+                opponent.take_damage(opponentDamage)
+                print(f'{opponent.name} remaining HP: {opponent.current_HP}')
+                #choose the move and attack the opponent with the move
+            if select_move == "2":
+                print(self.calculate_damage(self.type, self.moves[1].damage, opponent.type))
+                opponentDamage = self.calculate_damage(self.type, self.moves[1].damage, opponent.type)
                 opponent.take_damage(opponentDamage)
                 print(opponent.current_HP)
-                #choose the move and attack the opponent with the move
-            #ability.attack self.opponent?
-            #Whats different about this than the superhero dueler
-            #is that im not using every move, instead, the Pokemon 
-            #can only attack with one move per turn
-            #so it would have to be something like move.attack()
-                #TODO:where would the target go
-                #TODO:how would the specfic move be passed in?
-            if select_move == "2":
-                pass
                 
                 #choose the move and attack the opponent with the move
             if select_move == "3":
-                pass
+                print(self.calculate_damage(self.type, self.moves[2].damage, opponent.type))
+                opponentDamage = self.calculate_damage(self.type, self.moves[2].damage, opponent.type)
+                opponent.take_damage(opponentDamage)
+                print(opponent.current_HP)
                 #choose the move and attack the opponent with the move
             if select_move == "4":
-                pass                #choose the move and attack the opponent with the move
+                print(f'{self.name} Did {self.calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
+                opponentDamage = self.calculate_damage(self.type, self.moves[3].damage, opponent.type)
+                opponent.take_damage(opponentDamage)
+                print(opponent.current_HP)
+            #then computer controls opponent and it attacks
+            move_decision = random.randint(0,3)
+            #random value for which move the opponent uses
+            if opponent.isAlive():
+                print(f'{opponent.name} did {opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
+                selfDamage = opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
+                self.take_damage(selfDamage)
+                print(f'{self.name} remaining HP: {self.current_HP}')
+            
 
 
 

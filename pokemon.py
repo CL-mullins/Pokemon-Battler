@@ -85,12 +85,14 @@ class Pokemon(Character):
     def requestNickname(self):
         #Asks user for a name 
         #returns name
+        #overridden from character
         nickname = input('Enter nickname: ')
         return nickname
 
 
     def giveNickname(self, name):
-        #re declares name value and gives Pokemon (or character) new name
+        #re-declares name value and gives Pokemon (or character) new name
+        #overridden from character
         self.name = name
 
     #Is it an object of the Pokemon class or move class?
@@ -142,7 +144,6 @@ class Pokemon(Character):
                 print(f'{self.name} received {opponent.calculateEXP()} EXP!')
                 self.addEXP(opponent.calculateEXP())
                 self.levelUp()
-                print(self.level)
 
                 #opponent.name win print message
                 #print(f'{self.name} fainted!')

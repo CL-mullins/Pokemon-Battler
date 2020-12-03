@@ -82,6 +82,17 @@ class Pokemon(Character):
         self.rewardEXP = int(self.rewardEXP) * int(self.expMultiplier)
         return int(self.rewardEXP)
 
+    def requestNickname(self):
+        #Asks user for a name 
+        #returns name
+        nickname = input('Enter nickname: ')
+        return nickname
+
+
+    def giveNickname(self, name):
+        #re declares name value and gives Pokemon (or character) new name
+        self.name = name
+
     #Is it an object of the Pokemon class or move class?
     #Pokemon can attack, moves cant
     #How do I utilize the move class within Pokemon class

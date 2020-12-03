@@ -7,5 +7,6 @@ class Items:
     def heal(self, amount):
         #item heals a certain amount of health to the respective Pokemon
         pass
-    def status(self):
+    def status_remove(self, status):
         pass
+    def stat_increase(self, value):

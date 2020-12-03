@@ -7,13 +7,22 @@ import random
 class Pokemon(Character):
 
          #determines the type effectiveness for the attacking Pokemon
-    def __init__(self, name, HP, Damage, type): 
+    def __init__(self, name, HP, Damage, type, level): 
+        super()
         self.name = name #sets the name of the Pokemon
         self.hp = HP #sets the max hit points of the Pokemon
         self.current_HP = HP #sets current HP of Pokemon
         self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
         self.type = type #determines type effectiveness of attack
-        self.moves = list()
+        self.moves = list() #holds all moves, maximum, 4 moves
+        self.items = list #holds all items, maximum, 1 item
+        self.level = level #holds level value, max level: 100
+        self.exp = 0 #holds current exp
+        self.maxEXP = 100 #exp requirement to level up
+        self.rewardEXP = 9
+        self.expMultiplier = 1
+        #considering a rewardEXP property that scales by level
+        #Example: a level 1 charmander's reward EXP is 9
 
     def attack(self, opponent):
         total_damage = 0
@@ -47,7 +56,31 @@ class Pokemon(Character):
             return True
 
     def add_move(self, move):
+        #Adds a move to the Pokemon
         self.moves.append(move)
+
+    def give_item(self, item):
+        #Gives the Pokemon an item to 'hold'
+        self.items.append(item)
+
+    def addEXP(self, amount):
+        #adds the EXP to the selected Pokemon [post battle]
+        self.exp += amount
+
+    def levelUp(self):
+        #Levels up the Pokemon
+        if self.exp == self.maxEXP:
+            self.level = self.level + 1
+            self.maxEXP = self.maxEXP + 50
+            #reward EXP multiplier += 1
+            print(f'{self.name} leveled up!')
+        else:
+            pass
+
+    def calculateEXP(self):
+        #calculates the amount of EXP the pokemon will award upon defeat
+        self.rewardEXP = int(self.rewardEXP) * int(self.expMultiplier)
+        return int(self.rewardEXP)
 
     #Is it an object of the Pokemon class or move class?
     #Pokemon can attack, moves cant
@@ -58,7 +91,7 @@ class Pokemon(Character):
         #I want to do something similar to the superhero dueler, so I'll have the 
         #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
-            select_move = input(f"Select your move: \n[1]{self.moves[0].name},\n[2]{self.moves[1].name}, \n[3]{self.moves[2].name}, \n[4]{self.moves[3].name}\n Enter:  ")
+            select_move = input(f"Select your move: \n[1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
             #Each move attacks and does damage
             if select_move == "1":
                 print(f'{self.name} did {self.calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
@@ -87,11 +120,21 @@ class Pokemon(Character):
             #then computer controls opponent and it attacks
             move_decision = random.randint(0,3)
             #random value for which move the opponent uses
-            if opponent.isAlive():
+            if opponent.isAlive() == True:
                 print(f'{opponent.name} did {opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
                 selfDamage = opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
                 self.take_damage(selfDamage)
                 print(f'{self.name} remaining HP: {self.current_HP}')
+            else:
+                #self.name win print message
+                print(f'{opponent.name} fainted!')
+                print(f'{self.name} received {opponent.calculateEXP()} EXP!')
+                self.addEXP(opponent.calculateEXP())
+                self.levelUp()
+                print(self.level)
+
+                #opponent.name win print message
+                #print(f'{self.name} fainted!')
             
 
 
@@ -100,8 +143,8 @@ class Pokemon(Character):
 
 
 #Initialize battling Pokemon
-squirtle = Pokemon('Squirtle', 100, 5, 'water')
-charmander = Pokemon('Charmander', 100, 5, 'fire')
+squirtle = Pokemon('Squirtle', 100, 5, 'water', 1)
+charmander = Pokemon('Charmander', 100, 5, 'fire', 1)
 #Add moves
 #initialize squirtle moveset
 waterGun = Moves("Water Gun", 'water', 50)

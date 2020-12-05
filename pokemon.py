@@ -8,7 +8,6 @@ class Pokemon(Character):
 
          #determines the type effectiveness for the attacking Pokemon
     def __init__(self, name, HP, Damage, type, level): 
-        super()
         self.name = name #sets the name of the Pokemon
         self.hp = HP #sets the max hit points of the Pokemon
         self.current_HP = HP #sets current HP of Pokemon
@@ -29,7 +28,7 @@ class Pokemon(Character):
         #calculate attack damage by taking the moves' damage, then check the type between
         #the moves' type and the opponents type.
         #take that value and multiply the attack damage by it to get attack damage
-        attackDamage = self.damage * (typeChart[self.type][Opponent.type])
+        attackDamage = self.damage * (typeChart[self.type][opponent.type])
         #how do I access the opponent.type
         return attackDamage
 
@@ -38,7 +37,7 @@ class Pokemon(Character):
         #Pass in value from calculate damage
         self.current_HP -= damage
 
-    def calculate_damage(self, move_type, damage_amount, opponent_type):
+    def __calculate_damage(self, move_type, damage_amount, opponent_type):
         #This calculates the damage done based on pokemon type
         #Ex. typeChart =  {move_type: {opponent_type: damage outcome}}
         typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5, 'normal': 1},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0, 'normal': 1},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5, 'normal': 1},'normal': {'fire': 1, 'grass': 1, 'water': 1, 'normal': 1}}
@@ -63,11 +62,13 @@ class Pokemon(Character):
         #Gives the Pokemon an item to 'hold'
         self.items.append(item)
 
-    def addEXP(self, amount):
+    def __addEXP(self, amount):
         #adds the EXP to the selected Pokemon [post battle]
+        #private because all EXP functions should not be called outside of class
         self.exp += amount
 
-    def levelUp(self):
+    def __levelUp(self):
+        #private because all EXP functions should not be called outside of class
         #Levels up the Pokemon
         if self.exp == self.maxEXP:
             self.level = self.level + 1
@@ -77,8 +78,9 @@ class Pokemon(Character):
         else:
             pass
 
-    def calculateEXP(self):
+    def __calculateEXP(self):
         #calculates the amount of EXP the pokemon will award upon defeat
+        #Private because EXP does not need to be altered outside of class
         self.rewardEXP = int(self.rewardEXP) * int(self.expMultiplier)
         return int(self.rewardEXP)
 
@@ -86,7 +88,7 @@ class Pokemon(Character):
         #Asks user for a name 
         #returns name
         #overridden from character
-        nickname = input('Enter nickname: ')
+        nickname = input('Enter Pokemon nickname: ')
         return nickname
 
 
@@ -107,43 +109,43 @@ class Pokemon(Character):
             select_move = input(f"Select your move: \n[1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
             #Each move attacks and does damage
             if select_move == "1":
-                print(f'{self.name} did {self.calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
-                opponentDamage = self.calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
+                print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
+                opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
                 opponent.take_damage(opponentDamage)
                 print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                 #choose the move and attack the opponent with the move
             if select_move == "2":
-                print(self.calculate_damage(self.type, self.moves[1].damage, opponent.type))
-                opponentDamage = self.calculate_damage(self.type, self.moves[1].damage, opponent.type)
+                print(self.__calculate_damage(self.type, self.moves[1].damage, opponent.type))
+                opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
                 opponent.take_damage(opponentDamage)
                 print(opponent.current_HP)
                 
                 #choose the move and attack the opponent with the move
             if select_move == "3":
-                print(self.calculate_damage(self.type, self.moves[2].damage, opponent.type))
-                opponentDamage = self.calculate_damage(self.type, self.moves[2].damage, opponent.type)
+                print(self.__calculate_damage(self.type, self.moves[2].damage, opponent.type))
+                opponentDamage = self.__calculate_damage(self.type, self.moves[2].damage, opponent.type)
                 opponent.take_damage(opponentDamage)
                 print(opponent.current_HP)
                 #choose the move and attack the opponent with the move
             if select_move == "4":
-                print(f'{self.name} Did {self.calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
-                opponentDamage = self.calculate_damage(self.type, self.moves[3].damage, opponent.type)
+                print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
+                opponentDamage = self.__calculate_damage(self.type, self.moves[3].damage, opponent.type)
                 opponent.take_damage(opponentDamage)
                 print(opponent.current_HP)
             #then computer controls opponent and it attacks
             move_decision = random.randint(0,3)
             #random value for which move the opponent uses
             if opponent.isAlive() == True:
-                print(f'{opponent.name} did {opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
-                selfDamage = opponent.calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
+                print(f'{opponent.name} did {opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
+                selfDamage = opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
                 self.take_damage(selfDamage)
                 print(f'{self.name} remaining HP: {self.current_HP}')
             else:
                 #self.name win print message
                 print(f'{opponent.name} fainted!')
-                print(f'{self.name} received {opponent.calculateEXP()} EXP!')
-                self.addEXP(opponent.calculateEXP())
-                self.levelUp()
+                print(f'{self.name} received {opponent.__calculateEXP()} EXP!')
+                self.__addEXP(opponent.__calculateEXP())
+                self.__levelUp()
 
                 #opponent.name win print message
                 #print(f'{self.name} fainted!')
@@ -158,6 +160,10 @@ class Pokemon(Character):
 squirtle = Pokemon('Squirtle', 100, 5, 'water', 1)
 charmander = Pokemon('Charmander', 100, 5, 'fire', 1)
 #Add moves
+
+#Shouldn't  be able to change a few things like EXP or HP in obj initialization
+#add underscores and update it everywhere
+
 #initialize squirtle moveset
 waterGun = Moves("Water Gun", 'water', 50)
 bubble = Moves("Bubble", 'water', 25)

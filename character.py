@@ -8,7 +8,7 @@ class Character:
     def requestNickname(self):
         #Asks user for a name 
         #returns name
-        nickname = input('Enter nickname: ')
+        nickname = input('Enter Name: ')
         return nickname
 
     def giveNickname(self, name):

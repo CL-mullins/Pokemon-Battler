@@ -1,6 +1,7 @@
 from moves import Moves
 from moves import *
 from character import Character
+from items import Items
 import random
 
 #Pokemon object that can battle
@@ -14,7 +15,7 @@ class Pokemon(Character):
         self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
         self.type = type #determines type effectiveness of attack
         self.moves = list() #holds all moves, maximum, 4 moves
-        self.items = list #holds all items, maximum, 1 item
+        self.bag = list() #holds all items, maximum, 1 item
         self.level = level #holds level value, max level: 100
         self.exp = 0 #holds current exp
         self.maxEXP = 100 #exp requirement to level up
@@ -60,7 +61,7 @@ class Pokemon(Character):
 
     def give_item(self, item):
         #Gives the Pokemon an item to 'hold'
-        self.items.append(item)
+        self.bag.append(item)
 
     def __addEXP(self, amount):
         #adds the EXP to the selected Pokemon [post battle]
@@ -84,6 +85,9 @@ class Pokemon(Character):
         self.rewardEXP = int(self.rewardEXP) * int(self.expMultiplier)
         return int(self.rewardEXP)
 
+    def addItem(self, item):
+        self.bag.append(item)
+
     def requestNickname(self):
         #Asks user for a name 
         #returns name
@@ -97,58 +101,65 @@ class Pokemon(Character):
         #overridden from character
         self.name = name
 
-    #Is it an object of the Pokemon class or move class?
-    #Pokemon can attack, moves cant
-    #How do I utilize the move class within Pokemon class
+    def useItem(self, item):
+        pass
+ 
 
     def battle(self, opponent):
         #Pick which move you want to use
         #I want to do something similar to the superhero dueler, so I'll have the 
         #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
-            select_move = input(f"Select your move: \n[1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
-            #Each move attacks and does damage
-            if select_move == "1":
-                print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
-                opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
-                opponent.take_damage(opponentDamage)
-                print(f'{opponent.name} remaining HP: {opponent.current_HP}')
-                #choose the move and attack the opponent with the move
-            if select_move == "2":
-                print(self.__calculate_damage(self.type, self.moves[1].damage, opponent.type))
-                opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
-                opponent.take_damage(opponentDamage)
-                print(opponent.current_HP)
-                
-                #choose the move and attack the opponent with the move
-            if select_move == "3":
-                print(self.__calculate_damage(self.type, self.moves[2].damage, opponent.type))
-                opponentDamage = self.__calculate_damage(self.type, self.moves[2].damage, opponent.type)
-                opponent.take_damage(opponentDamage)
-                print(opponent.current_HP)
-                #choose the move and attack the opponent with the move
-            if select_move == "4":
-                print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
-                opponentDamage = self.__calculate_damage(self.type, self.moves[3].damage, opponent.type)
-                opponent.take_damage(opponentDamage)
-                print(opponent.current_HP)
-            #then computer controls opponent and it attacks
-            move_decision = random.randint(0,3)
-            #random value for which move the opponent uses
-            if opponent.isAlive() == True:
-                print(f'{opponent.name} did {opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
-                selfDamage = opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
-                self.take_damage(selfDamage)
-                print(f'{self.name} remaining HP: {self.current_HP}')
-            else:
-                #self.name win print message
-                print(f'{opponent.name} fainted!')
-                print(f'{self.name} received {opponent.__calculateEXP()} EXP!')
-                self.__addEXP(opponent.__calculateEXP())
-                self.__levelUp()
+            select_action = input(f"What will {self.name} do?: \n[1]Attack [2]Bag \n [3]Pokemon [4]Run\n :")
+            if select_action == "1":
+                #Attack Menu
+                select_move = input(f"Select your move: \n [1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
+                #Each move attacks and does damage
+                if select_move == "1":
+                    print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
+                    opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
+                    opponent.take_damage(opponentDamage)
+                    print(f'{opponent.name} remaining HP: {opponent.current_HP}')
+                    #choose the move and attack the opponent with the move
+                if select_move == "2":
+                    print(self.__calculate_damage(self.type, self.moves[1].damage, opponent.type))
+                    opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
+                    opponent.take_damage(opponentDamage)
+                    print(opponent.current_HP)
+                    
+                    #choose the move and attack the opponent with the move
+                if select_move == "3":
+                    print(self.__calculate_damage(self.type, self.moves[2].damage, opponent.type))
+                    opponentDamage = self.__calculate_damage(self.type, self.moves[2].damage, opponent.type)
+                    opponent.take_damage(opponentDamage)
+                    print(opponent.current_HP)
+                    #choose the move and attack the opponent with the move
+                if select_move == "4":
+                    print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
+                    opponentDamage = self.__calculate_damage(self.type, self.moves[3].damage, opponent.type)
+                    opponent.take_damage(opponentDamage)
+                    print(opponent.current_HP)
+                #then computer controls opponent and it attacks
+                move_decision = random.randint(0,3)
+                #random value for which move the opponent uses
+                if opponent.isAlive() == True:
+                    print(f'{opponent.name} did {opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)} damage!')
+                    selfDamage = opponent.__calculate_damage(opponent.moves[move_decision].type, self.moves[move_decision].damage, self.type)
+                    self.take_damage(selfDamage)
+                    print(f'{self.name} remaining HP: {self.current_HP}')
+                else:
+                    #self.name win print message
+                    print(f'{opponent.name} fainted!')
+                    print(f'{self.name} received {opponent.__calculateEXP()} EXP!')
+                    self.__addEXP(opponent.__calculateEXP())
+                    self.__levelUp()
 
-                #opponent.name win print message
-                #print(f'{self.name} fainted!')
+                    #opponent.name win print message
+                    #print(f'{self.name} fainted!')
+
+            elif select_action == "2":
+                for item in self.bag:
+                    print(f'{item.name}')
             
 
 
@@ -174,11 +185,17 @@ growl = Moves("Growl", 'normal', 15)
 fireSpin = Moves("Fire Spin", 'fire', 25)
 flamethrower = Moves('Flamethrower', 'fire', 50)
 
+#initialize item
+potion = Items('Potion', 20)
+
 #Squirtle Add Moves
 squirtle.add_move(waterGun)
 squirtle.add_move(bubble)
 squirtle.add_move(scratch)
 squirtle.add_move(growl)
+
+#Squirtle Add Item
+squirtle.addItem(potion)
 
 #Charmander Add Moves
 charmander.add_move(scratch)

@@ -101,19 +101,27 @@ class Pokemon(Character):
         #overridden from character
         self.name = name
 
+    def heal(self, amount):
+        #actually applies the healing
+        self.current_HP += amount
+
     def useItem(self, item):
-        pass
+        #If the item is a restorative item
+        if item.name == 'Potion' or 'Super Potion' or 'Hyper Potion' or 'Max Potion' or 'Full Restore':
+            #Heal the Pokemon for a specified amount
+            self.heal(item.amount)
+        else: 
+            pass
+        
  
 
     def battle(self, opponent):
         #Pick which move you want to use
-        #I want to do something similar to the superhero dueler, so I'll have the 
-        #terminal print out all (4) moves and have the user enter a number to use it!
         while(self.isAlive() and opponent.isAlive()):
-            select_action = input(f"What will {self.name} do?: \n[1]Attack [2]Bag \n [3]Pokemon [4]Run\n :")
+            select_action = input(f"What will {self.name} do?: \n \n[1]Attack [2]Bag \n [3]Pokemon [4]Run\n :")
             if select_action == "1":
                 #Attack Menu
-                select_move = input(f"Select your move: \n [1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
+                select_move = input(f"Select your move: \n \n[1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
                 #Each move attacks and does damage
                 if select_move == "1":
                     print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
@@ -122,10 +130,10 @@ class Pokemon(Character):
                     print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                     #choose the move and attack the opponent with the move
                 if select_move == "2":
-                    print(self.__calculate_damage(self.type, self.moves[1].damage, opponent.type))
+                    print(f'{self.name} did {self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)} damage!')
                     opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
                     opponent.take_damage(opponentDamage)
-                    print(opponent.current_HP)
+                    print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                     
                     #choose the move and attack the opponent with the move
                 if select_move == "3":
@@ -158,8 +166,18 @@ class Pokemon(Character):
                     #print(f'{self.name} fainted!')
 
             elif select_action == "2":
+                #Item menu
+                i = 1
                 for item in self.bag:
-                    print(f'{item.name}')
+                    print(f'[{i}] {item.name}')
+                    i += 1
+                select_item = input('Which item would you like to use? \n :')
+                #select item based on which increment i is at, at the corresponding item
+                if select_item == "1":
+                    #use the item
+                    self.useItem(self.bag[0])
+                    print(f'{self.name} has {self.current_HP} HP')
+
             
 
 
@@ -187,6 +205,7 @@ flamethrower = Moves('Flamethrower', 'fire', 50)
 
 #initialize item
 potion = Items('Potion', 20)
+superpotion = Items('Super Potion', 50)
 
 #Squirtle Add Moves
 squirtle.add_move(waterGun)

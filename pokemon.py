@@ -3,6 +3,7 @@ from moves import *
 from character import Character
 from items import Items
 import random
+import pandas as pd
 
 #Pokemon object that can battle
 class Pokemon(Character):
@@ -124,12 +125,15 @@ class Pokemon(Character):
                 select_move = input(f"Select your move: \n \n[1]{self.moves[0].name} [2]{self.moves[1].name} \n[3]{self.moves[2].name} [4]{self.moves[3].name}\n Enter:  ")
                 #Each move attacks and does damage
                 if select_move == "1":
+                    print(f'{self.name} used {self.moves[0].name}!')
+                    #Print out effectiveness
                     print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
                     opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
                     opponent.take_damage(opponentDamage)
                     print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                     #choose the move and attack the opponent with the move
                 if select_move == "2":
+                    print(f'{self.name} used {self.moves[1].name}!')
                     print(f'{self.name} did {self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)} damage!')
                     opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
                     opponent.take_damage(opponentDamage)
@@ -137,12 +141,14 @@ class Pokemon(Character):
                     
                     #choose the move and attack the opponent with the move
                 if select_move == "3":
+                    print(f'{self.name} used {self.moves[2].name}!')
                     print(self.__calculate_damage(self.type, self.moves[2].damage, opponent.type))
                     opponentDamage = self.__calculate_damage(self.type, self.moves[2].damage, opponent.type)
                     opponent.take_damage(opponentDamage)
                     print(opponent.current_HP)
                     #choose the move and attack the opponent with the move
                 if select_move == "4":
+                    print(f'{self.name} used {self.moves[3].name}!')
                     print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
                     opponentDamage = self.__calculate_damage(self.type, self.moves[3].damage, opponent.type)
                     opponent.take_damage(opponentDamage)
@@ -184,10 +190,13 @@ class Pokemon(Character):
 
     #def take_damage(sef):
 
+df = pd.read_csv('Pokemon.csv')
+pokeName = df['Name']
+#For some reason you take row index number and subtract 2
 
 #Initialize battling Pokemon
-squirtle = Pokemon('Squirtle', 100, 5, 'water', 1)
-charmander = Pokemon('Charmander', 100, 5, 'fire', 1)
+squirtle = Pokemon(pokeName[9], 100, 5, 'water', 1)
+charmander = Pokemon(pokeName[4], 100, 5, 'fire', 1)
 #Add moves
 
 #Shouldn't  be able to change a few things like EXP or HP in obj initialization
@@ -221,6 +230,8 @@ charmander.add_move(scratch)
 charmander.add_move(growl)
 charmander.add_move(fireSpin)
 charmander.add_move(flamethrower)
+
+#test
 
 squirtle.battle(charmander)
     #I want an add attack method that also uses the type dictionary

@@ -190,14 +190,25 @@ class Pokemon(Character):
 
     #def take_damage(sef):
 
+#Add & Configure Data from Pokemon CSV
+#as to Pokemon name, stats and type(s)
+
 df = pd.read_csv('Pokemon.csv')
 pokeName = df['Name']
 pokeType1 = df['Type 1']
 #For some reason you take row index number and subtract 2
 
 #Initialize battling Pokemon
+
+    #TODO: Give each Pokemon an index # that corresponds with their assumed position on the Pokemon.csv
+    #TODO: this will be referenced when passing in the Pokemon class to initialize the right Pokemon
+    #TODO: since all the parameters are the same
+    #TODO: Example: squirtle = 9 (int) --> pokeName[squirtle], pokeType1[squirtle], pokeHP[squirtle]....
+
 squirtle = Pokemon(pokeName[9], 100, pokeType1[9], 1)
 charmander = Pokemon(pokeName[4], 100, pokeType1[4], 1)
+
+
 #Add moves
 
 #Shouldn't  be able to change a few things like EXP or HP in obj initialization

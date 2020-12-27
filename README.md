@@ -1,4 +1,8 @@
-A fun Pokemon Battler inspired by the Superhero Dueler done for class
+A fun Pokemon Battler inspired by the Superhero Dueler done for class / intensive
+
+Screenshots:
+
+![alt text](http://url/to/img.png)
 
 TODO: Trying to integrate battle & attack methods with this type chart dictionary data.
 
@@ -38,29 +42,3 @@ Theres a Battle class which contains:
     Fight(): battles two Pokemon against eachother and rewards XP to the participating Pokemon
     Switch(): Switches participating Pokemon 
 
-
-Assignment Requirements:
-
-Classes:
-
-[x]At least 4 classes are defined.
-[x]At least 1 class demonstrates composition (being composed of other objects).
-[x]At least 1 class inherits from another class.
-[x]All classes are used to instantiate example objects.
-Methods:
-
-[x]Each class has at least 2 methods that use and/or modify class attributes.
-[x]The subclass overrides at least one superclass method (this can be init or another method).
-[x]Rationale about which methods are private, protected, or public should be provided in code comments or verbally during presentation.
-Attributes:
-
-[x]Each class has a least 2 instance attributes created in init()
-Rationale about which attributes are private, protected, or public should be provided in code comments or verbally during presentation.
-Diagram:
-
-A diagram is provided that shows an overview of all the classes that make up the system design
-Diagram shows relationships between classes.
-Presentation:
-
-5 - 10 min in-class presentation is given showing off all of the above requirements.
-Note: If you cannot make the presentation day, you may turn in a video presentation beforehand to instructor via Slack.

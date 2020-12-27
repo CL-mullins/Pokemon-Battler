@@ -9,12 +9,17 @@ import pandas as pd
 class Pokemon(Character):
 
          #determines the type effectiveness for the attacking Pokemon
-    def __init__(self, name, HP, type, level): 
+    def __init__(self, name, HP, type1, attack, defense, spAttack, spDefense, speed, level): 
         self.name = name #sets the name of the Pokemon
         self.hp = HP #sets the max hit points of the Pokemon
         self.current_HP = HP #sets current HP of Pokemon
         #self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
-        self.type = type #determines type effectiveness of attack
+        self.type1 = type1 #determines type effectiveness of attack
+        self.attack = attack #determines ...
+        self.defense = defense #determines ...
+        self.spAttack = spAttack #determines
+        self.spDefense = spDefense #determines
+        self.speed = speed #determines attack order
         self.moves = list() #holds all moves, maximum, 4 moves
         self.bag = list() #holds all items, maximum, 1 item
         self.level = level #holds level value, max level: 100
@@ -72,10 +77,22 @@ class Pokemon(Character):
     def __levelUp(self):
         #private because all EXP functions should not be called outside of class
         #Levels up the Pokemon
+
         if self.exp == self.maxEXP:
             self.level = self.level + 1
             self.maxEXP = self.maxEXP + 50
             #reward EXP multiplier += 1
+            #Upon leveling, a Pokemon's stats will increase
+            #for each level, the Pokemon's stat will increase for 1/50th the base value
+            # ~and combined individual & effort value~ 
+            #TODO: Increase Attack, Defense, Sp Attack, Sp Defense & Speed for 1/50th
+            #TODO: the base value per level
+            self.attack = self.attack + (self.attack * 0.02)
+                #TODO: Needs variable to hold BASE stat value for each Pokemon 
+            self.defense = self.defense + (self.defense * 0.02)
+            self.spAttack = self.spAttack + (self.spAttack * 0.02)
+            self.spDefense = self.spDefense + (self.spDefense * 0.02)
+            self.speed = self.speed + (self.speed + 0.02)
             print(f'{self.name} leveled up!')
         else:
             pass
@@ -127,30 +144,30 @@ class Pokemon(Character):
                 if select_move == "1":
                     print(f'{self.name} used {self.moves[0].name}!')
                     #Print out effectiveness
-                    print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)} damage!')
-                    opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type)
+                    print(f'{self.name} did {self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type1)} damage!')
+                    opponentDamage = self.__calculate_damage(self.moves[0].type, self.moves[0].damage, opponent.type1)
                     opponent.take_damage(opponentDamage)
                     print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                     #choose the move and attack the opponent with the move
                 if select_move == "2":
                     print(f'{self.name} used {self.moves[1].name}!')
-                    print(f'{self.name} did {self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)} damage!')
-                    opponentDamage = self.__calculate_damage(self.type, self.moves[1].damage, opponent.type)
+                    print(f'{self.name} did {self.__calculate_damage(self.type1, self.moves[1].damage, opponent.type1)} damage!')
+                    opponentDamage = self.__calculate_damage(self.type1, self.moves[1].damage, opponent.type1)
                     opponent.take_damage(opponentDamage)
                     print(f'{opponent.name} remaining HP: {opponent.current_HP}')
                     
                     #choose the move and attack the opponent with the move
                 if select_move == "3":
                     print(f'{self.name} used {self.moves[2].name}!')
-                    print(self.__calculate_damage(self.type, self.moves[2].damage, opponent.type))
-                    opponentDamage = self.__calculate_damage(self.type, self.moves[2].damage, opponent.type)
+                    print(self.__calculate_damage(self.type1, self.moves[2].damage, opponent.type1))
+                    opponentDamage = self.__calculate_damage(self.type1, self.moves[2].damage, opponent.type1)
                     opponent.take_damage(opponentDamage)
                     print(opponent.current_HP)
                     #choose the move and attack the opponent with the move
                 if select_move == "4":
                     print(f'{self.name} used {self.moves[3].name}!')
-                    print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type, self.moves[3].damage, opponent.type)} damage!')
-                    opponentDamage = self.__calculate_damage(self.type, self.moves[3].damage, opponent.type)
+                    print(f'{self.name} Did {self.__calculate_damage(self.moves[3].type1, self.moves[3].damage, opponent.type1)} damage!')
+                    opponentDamage = self.__calculate_damage(self.type1, self.moves[3].damage, opponent.type1)
                     opponent.take_damage(opponentDamage)
                     print(opponent.current_HP)
                 #then computer controls opponent and it attacks
@@ -196,6 +213,11 @@ class Pokemon(Character):
 df = pd.read_csv('Pokemon.csv')
 pokeName = df['Name']
 pokeType1 = df['Type 1']
+pokeAttack = df['Attack']
+pokeDefense = df['Defense']
+pokeSpAttack = df['Sp. Atk']
+pokeSpDefense = df['Sp. Def']
+pokeSpeed = df['Speed']
 #For some reason you take row index number and subtract 2
 
 #Initialize battling Pokemon
@@ -205,8 +227,8 @@ pokeType1 = df['Type 1']
     #TODO: since all the parameters are the same
     #TODO: Example: squirtle = 9 (int) --> pokeName[squirtle], pokeType1[squirtle], pokeHP[squirtle]....
 
-squirtle = Pokemon(pokeName[9], 100, pokeType1[9], 1)
-charmander = Pokemon(pokeName[4], 100, pokeType1[4], 1)
+squirtle = Pokemon(pokeName[9], 100, pokeType1[9], pokeAttack[9], pokeDefense[9], pokeSpAttack[9], pokeSpDefense[9], pokeSpeed[9], 1)
+charmander = Pokemon(pokeName[4], 100, pokeType1[4], pokeAttack[4], pokeDefense[4], pokeSpAttack[4], pokeSpDefense[4], pokeSpeed[4],1)
 
 
 #Add moves

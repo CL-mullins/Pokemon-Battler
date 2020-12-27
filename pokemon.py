@@ -15,11 +15,16 @@ class Pokemon(Character):
         self.current_HP = HP #sets current HP of Pokemon
         #self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
         self.type1 = type1 #determines type effectiveness of attack
-        self.attack = attack #determines ...
-        self.defense = defense #determines ...
-        self.spAttack = spAttack #determines
-        self.spDefense = spDefense #determines
-        self.speed = speed #determines attack order
+        self.baseAttack = attack #determines base attack value
+        self.currentAttack = self.baseAttack #sets current attack value @ level 1
+        self.baseDefense = defense #determines base defense value
+        self.currentDefense = self.baseDefense
+        self.baseSpAttack = spAttack #determines
+        self.currentSpAttack = self.baseSpAttack
+        self.baseSpDefense = spDefense #determines
+        self.currentSpDefense = self.baseSpDefense
+        self.baseSpeed = speed #determines attack order
+        self.currentSpeed = self.baseSpeed
         self.moves = list() #holds all moves, maximum, 4 moves
         self.bag = list() #holds all items, maximum, 1 item
         self.level = level #holds level value, max level: 100
@@ -78,21 +83,18 @@ class Pokemon(Character):
         #private because all EXP functions should not be called outside of class
         #Levels up the Pokemon
 
-        if self.exp == self.maxEXP:
+        if self.exp == self.maxEXP or self.exp > self.maxEXP:
             self.level = self.level + 1
             self.maxEXP = self.maxEXP + 50
             #reward EXP multiplier += 1
             #Upon leveling, a Pokemon's stats will increase
             #for each level, the Pokemon's stat will increase for 1/50th the base value
             # ~and combined individual & effort value~ 
-            #TODO: Increase Attack, Defense, Sp Attack, Sp Defense & Speed for 1/50th
-            #TODO: the base value per level
-            self.attack = self.attack + (self.attack * 0.02)
-                #TODO: Needs variable to hold BASE stat value for each Pokemon 
-            self.defense = self.defense + (self.defense * 0.02)
-            self.spAttack = self.spAttack + (self.spAttack * 0.02)
-            self.spDefense = self.spDefense + (self.spDefense * 0.02)
-            self.speed = self.speed + (self.speed + 0.02)
+            self.currentAttack = self.currentAttack + (self.baseAttack * 0.02)
+            self.currentDefense = self.currentDefense + (self.baseDefense * 0.02)
+            self.currentSpAttack = self.currentSpAttack + (self.baseSpAttack * 0.02)
+            self.currentSpDefense = self.currentSpDefense + (self.baseSpDefense * 0.02)
+            self.currentSpeed = self.currentSpeed + (self.baseSpeed * 0.02)
             print(f'{self.name} leveled up!')
         else:
             pass
@@ -185,8 +187,6 @@ class Pokemon(Character):
                     self.__addEXP(opponent.__calculateEXP())
                     self.__levelUp()
 
-                    #opponent.name win print message
-                    #print(f'{self.name} fainted!')
 
             elif select_action == "2":
                 #Item menu
@@ -210,7 +210,7 @@ class Pokemon(Character):
 #Add & Configure Data from Pokemon CSV
 #as to Pokemon name, stats and type(s)
 
-df = pd.read_csv('Pokemon.csv')
+df = pd.read_csv('dataframes/pokemon.csv')
 pokeName = df['Name']
 pokeType1 = df['Type 1']
 pokeAttack = df['Attack']

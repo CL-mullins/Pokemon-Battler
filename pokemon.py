@@ -222,10 +222,15 @@ pokeSpeed = df['Speed']
 
 #Initialize battling Pokemon
 
-    #TODO: Give each Pokemon an index # that corresponds with their assumed position on the Pokemon.csv
-    #TODO: this will be referenced when passing in the Pokemon class to initialize the right Pokemon
-    #TODO: since all the parameters are the same
-    #TODO: Example: squirtle = 9 (int) --> pokeName[squirtle], pokeType1[squirtle], pokeHP[squirtle]....
+def locatePokemon():
+    #Enter name of Pokemon that you wish to find
+    pokeFinder = input("Enter a Pokemon's name!: ")
+    #Enters that Pokemon's name into function that finds the Pokemon's row number
+    #relative to the csv file
+    #Theres probably another way to do this..
+    pokeLocation = df.index[df["Name"].str.contains(pokeFinder) == True].tolist()
+    #Pull Pokemon's row number from index # ___
+    print(pokeLocation[0])
 
 squirtle = Pokemon(pokeName[9], 100, pokeType1[9], pokeAttack[9], pokeDefense[9], pokeSpAttack[9], pokeSpDefense[9], pokeSpeed[9], 1)
 charmander = Pokemon(pokeName[4], 100, pokeType1[4], pokeAttack[4], pokeDefense[4], pokeSpAttack[4], pokeSpDefense[4], pokeSpeed[4],1)

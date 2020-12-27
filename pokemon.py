@@ -207,6 +207,8 @@ class Pokemon(Character):
 
     #def take_damage(sef):
 
+
+
 #Add & Configure Data from Pokemon CSV
 #as to Pokemon name, stats and type(s)
 
@@ -218,6 +220,7 @@ pokeDefense = df['Defense']
 pokeSpAttack = df['Sp. Atk']
 pokeSpDefense = df['Sp. Def']
 pokeSpeed = df['Speed']
+
 #For some reason you take row index number and subtract 2
 
 #Initialize battling Pokemon
@@ -232,15 +235,8 @@ def locatePokemon():
     #Pull Pokemon's row number from index # ___
     return pokeLocation[0]
 
-#This is a mechanics decision...
-#Every time a new Pokemon is brought into the game, you can now search for it in the CSV
-#in order to initialize it. 
-#As of right now, the program initializes squirtle & charmander in a sort of Pokemon showdown
-#-esque battle sim.
-
-#However, if I want to make this game like the overworld games (with graphics and what not),
-#then this feature really isn't that needed.
-#So basically I have to decide which step i want to take, especially in terms of this intensive.
+#Mechanics decision, make it Pokemon Showdown-esque, that way I can work backwards from already having a comprehensive
+#combat system and add overworld if I want to!
 
 squirtle = Pokemon(pokeName[9], 100, pokeType1[9], pokeAttack[9], pokeDefense[9], pokeSpAttack[9], pokeSpDefense[9], pokeSpeed[9], 1)
 charmander = Pokemon(pokeName[4], 100, pokeType1[4], pokeAttack[4], pokeDefense[4], pokeSpAttack[4], pokeSpDefense[4], pokeSpeed[4],1)

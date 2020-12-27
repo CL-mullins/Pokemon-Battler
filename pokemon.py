@@ -9,11 +9,11 @@ import pandas as pd
 class Pokemon(Character):
 
          #determines the type effectiveness for the attacking Pokemon
-    def __init__(self, name, HP, Damage, type, level): 
+    def __init__(self, name, HP, type, level): 
         self.name = name #sets the name of the Pokemon
         self.hp = HP #sets the max hit points of the Pokemon
         self.current_HP = HP #sets current HP of Pokemon
-        self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
+        #self.Damage = Damage #sets the damage of the Pokemon (might not keep it)
         self.type = type #determines type effectiveness of attack
         self.moves = list() #holds all moves, maximum, 4 moves
         self.bag = list() #holds all items, maximum, 1 item
@@ -42,7 +42,7 @@ class Pokemon(Character):
     def __calculate_damage(self, move_type, damage_amount, opponent_type):
         #This calculates the damage done based on pokemon type
         #Ex. typeChart =  {move_type: {opponent_type: damage outcome}}
-        typeChart = {'fire': {'fire': 0.5, 'grass': 2.0, 'water':0.5, 'normal': 1},'grass':{'fire':0.5,'grass': 0.5, 'water':2.0, 'normal': 1},'water': {'fire':2.0, 'grass': 0.5, 'water': 0.5, 'normal': 1},'normal': {'fire': 1, 'grass': 1, 'water': 1, 'normal': 1}}
+        typeChart = {'Fire': {'Fire': 0.5, 'Grass': 2.0, 'Water':0.5, 'Normal': 1},'Grass':{'Fire':0.5,'Grass': 0.5, 'Water':2.0, 'Normal': 1},'Water': {'Fire':2.0, 'Grass': 0.5, 'Water': 0.5, 'Normal': 1},'Normal': {'Fire': 1, 'Grass': 1, 'Water': 1, 'Normal': 1}}
         conversion_dict = typeChart[move_type]
 
         #first value in dictionary
@@ -192,32 +192,33 @@ class Pokemon(Character):
 
 df = pd.read_csv('Pokemon.csv')
 pokeName = df['Name']
+pokeType1 = df['Type 1']
 #For some reason you take row index number and subtract 2
 
 #Initialize battling Pokemon
-squirtle = Pokemon(pokeName[9], 100, 5, 'water', 1)
-charmander = Pokemon(pokeName[4], 100, 5, 'fire', 1)
+squirtle = Pokemon(pokeName[9], 100, pokeType1[9], 1)
+charmander = Pokemon(pokeName[4], 100, pokeType1[4], 1)
 #Add moves
 
 #Shouldn't  be able to change a few things like EXP or HP in obj initialization
 #add underscores and update it everywhere
 
 #initialize squirtle moveset
-waterGun = Moves("Water Gun", 'water', 50)
-bubble = Moves("Bubble", 'water', 25)
-scratch = Moves("Scratch", 'normal', 15)
-growl = Moves("Growl", 'normal', 15)
+WaterGun = Moves("Water Gun", 'Water', 50)
+bubble = Moves("Bubble", 'Water', 25)
+scratch = Moves("Scratch", 'Normal', 15)
+growl = Moves("Growl", 'Normal', 15)
 
 #initialize charmander moveset
-fireSpin = Moves("Fire Spin", 'fire', 25)
-flamethrower = Moves('Flamethrower', 'fire', 50)
+FireSpin = Moves("Fire Spin", 'Fire', 25)
+flamethrower = Moves('Flamethrower', 'Fire', 50)
 
 #initialize item
 potion = Items('Potion', 20)
 superpotion = Items('Super Potion', 50)
 
 #Squirtle Add Moves
-squirtle.add_move(waterGun)
+squirtle.add_move(WaterGun)
 squirtle.add_move(bubble)
 squirtle.add_move(scratch)
 squirtle.add_move(growl)
@@ -228,7 +229,7 @@ squirtle.addItem(potion)
 #Charmander Add Moves
 charmander.add_move(scratch)
 charmander.add_move(growl)
-charmander.add_move(fireSpin)
+charmander.add_move(FireSpin)
 charmander.add_move(flamethrower)
 
 #test

@@ -2,7 +2,7 @@ A fun Pokemon Battler inspired by the Superhero Dueler done for class / intensiv
 
 Screenshots:
 
-![alt text](http://url/to/img.png)
+![](https://github.com/CL-mullins/Pokemon-Battler/blob/main/screenshots/Main%20Menu.png?raw=true)
 
 TODO: Trying to integrate battle & attack methods with this type chart dictionary data.
 

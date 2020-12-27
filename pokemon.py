@@ -230,7 +230,17 @@ def locatePokemon():
     #Theres probably another way to do this..
     pokeLocation = df.index[df["Name"].str.contains(pokeFinder) == True].tolist()
     #Pull Pokemon's row number from index # ___
-    print(pokeLocation[0])
+    return pokeLocation[0]
+
+#This is a mechanics decision...
+#Every time a new Pokemon is brought into the game, you can now search for it in the CSV
+#in order to initialize it. 
+#As of right now, the program initializes squirtle & charmander in a sort of Pokemon showdown
+#-esque battle sim.
+
+#However, if I want to make this game like the overworld games (with graphics and what not),
+#then this feature really isn't that needed.
+#So basically I have to decide which step i want to take, especially in terms of this intensive.
 
 squirtle = Pokemon(pokeName[9], 100, pokeType1[9], pokeAttack[9], pokeDefense[9], pokeSpAttack[9], pokeSpDefense[9], pokeSpeed[9], 1)
 charmander = Pokemon(pokeName[4], 100, pokeType1[4], pokeAttack[4], pokeDefense[4], pokeSpAttack[4], pokeSpDefense[4], pokeSpeed[4],1)

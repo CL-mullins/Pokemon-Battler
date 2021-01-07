@@ -1,9 +1,12 @@
-class Character:
+import pygame
+
+class Character(pygame.sprite.Sprite):
     def __init__(self, name, species):
         self.name = name #Name of the character
         self.species = species #Human or Pokemon
         self.team = list() #pokemon team
         self.items = list()
+        self.image = pygame.image.load("") #Each character has an image
 
     def requestNickname(self):
         #Asks user for a name 

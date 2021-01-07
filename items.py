@@ -1,7 +1,14 @@
+#def heal(amount):
+ #   self.current_HP += amount
+  #  pass
+#The function would need to be within the Pokemon class?
+
 class Items:
     def __init__(self, name, amount):
         self.name = name
-        self.amount = amount #What the item does when activated
+        #self.effect = effect #Pass a function from one of the item's methods that is used
+        self.amount = amount #If effect is of a specific type, it'll restore or add a specified amount
+         #What the item does when activated
         #conditions that activate the item?
 
     def heal(self, amount):
@@ -20,3 +27,4 @@ class Items:
 
 #Initialize a potion:
 #potion = Items('Potion', self.heal() [or, self.hp + 20]
+

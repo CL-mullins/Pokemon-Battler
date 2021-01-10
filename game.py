@@ -32,9 +32,25 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (width / 2,height / 2)
 
+    #Draws image to screen
     def draw(self,surface,destination):
         surface.blit(self.image,destination)
 
+    #Resize image
+    def scale(self,wdth,hght):
+        pygame.transform.scale(self.image,(wdth,hght))
+
+class HPBar(pygame.sprite.Sprite):
+    def __init__(self, HPBarImage):
+        self.image = pygame.image.load(HPBarImage)
+        self.rect = self.image.get_rect()
+        self.rect.center = (width/2, height/2)
+
+    def draw(self, surface, destination):
+        surface.blit(self.image,destination)
+
+def addToScreen(image, surface, destination):
+    surface.blit(image, destination)
 
 
 while running:
@@ -59,6 +75,7 @@ while running:
     # Initialize battling Pokemon
 
     def locatePokemon():
+        '''Finds Pokemon within CSV'''
         # Enter name of Pokemon that you wish to find
         pokeFinder = input("Enter a Pokemon's name!: ")
         # Enters that Pokemon's name into function that finds the Pokemon's row number
@@ -109,13 +126,33 @@ while running:
     charmander.add_move(FireSpin)
     charmander.add_move(flamethrower)
 
-    # test
-    all_sprites = pygame.sprite.Group()
+    '''Initializes  Pokemon as Players'''
+    #Player
     player = Player(squirtle.image)
-    all_sprites.add(player)
-    player.draw(screen,(0,100))
-    #Draws Player's Pokemon onto the screen
+    #Opponent
+    player2 = Player(charmander.image)
+    #Resize (scale) sprite for game window resolution
+    '''Scales Pokemon to Screen '''
+
+    player.image = pygame.transform.scale(player.image,(150,150))
+    player2.image = pygame.transform.scale(player2.image, (125,125))
+
+    '''Draws Pokemon onto Screen '''
+    #Draws player pokemon
+    player.draw(screen,(5,115))
+    #Draws opponent pokemon
+    player2.draw(screen,(165,35))
     #Destination of player's Pokemon should be determined by the battle location spot
+
+    '''Draws HP Bars onto Screen '''
+    #Player HP Bar
+    playerHPBar = HPBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/[T]PlayerHPBar.png")
+    playerHPBar.draw(screen,(175,115))
+
+    #Opponent HP Bar
+    opponentHPBar = HPBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/[T]OpponentHPBar.png")
+    opponentHPBar.draw(screen,(50,75))
+
     pygame.display.update()
     #squirtle.battle(charmander)
         # I want an add attack method that also uses the type dictionary

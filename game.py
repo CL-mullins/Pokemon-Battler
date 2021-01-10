@@ -11,6 +11,7 @@ import pandas as pd
 from pokemon import Pokemon
 
 
+
 bg = pygame.image.load("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/battlebg.png")
 background_colour = (255,255,255)
 (width, height) = (300, 200)
@@ -22,6 +23,20 @@ pygame.display.flip()
 running = True
 FPS = 60
 clock = pygame.time.Clock()
+
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, pokemonImage):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pokemonImage
+        self.rect = self.image.get_rect()
+        self.rect.center = (width / 2,height / 2)
+
+    def draw(self,surface,destination):
+        surface.blit(self.image,destination)
+
+
+
 while running:
     clock.tick(FPS)
 
@@ -95,7 +110,13 @@ while running:
     charmander.add_move(flamethrower)
 
     # test
-
+    all_sprites = pygame.sprite.Group()
+    player = Player(squirtle.image)
+    all_sprites.add(player)
+    player.draw(screen,(0,100))
+    #Draws Player's Pokemon onto the screen
+    #Destination of player's Pokemon should be determined by the battle location spot
+    pygame.display.update()
     #squirtle.battle(charmander)
         # I want an add attack method that also uses the type dictionary
         # Also stats, I have two weeks. I want there to be a window with Sprites as well

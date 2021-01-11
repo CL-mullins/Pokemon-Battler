@@ -10,8 +10,63 @@ import random
 import pandas as pd
 from pokemon import Pokemon
 
+pygame.init()
 
-#fontObj = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',16)
+
+black = (0,0,0)
+white = (255,255,255)
+red = (255,0,0)
+
+
+''' TextObjects '''
+#Base
+def text_objects(text, font):
+    textSurface = font.render(text, True, white)
+    return textSurface, textSurface.get_rect()
+#Secondary
+def text_objects2(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
+#Writes to the message bar
+def message_display(text):
+    fontObj = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',35)
+    TextSurf, TextRect = text_objects(text, fontObj)
+    TextRect.center = (200,500)
+    screen.blit(TextSurf, TextRect)
+
+#Displays opponents name
+def oppName_display(text):
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(text, fontObj2)
+    TextRect.center = (280,150)
+    screen.blit(TextSurf, TextRect)
+
+#Displays opponents level
+def oppLevel_display(text):
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',20)
+    TextSurf, TextRect = text_objects2(text, fontObj2)
+    TextRect.center = (450,147)
+    screen.blit(TextSurf, TextRect)
+
+#Display players name
+def playerName_display(text):
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(text, fontObj2)
+    TextRect.center = (785,383)
+    screen.blit(TextSurf, TextRect)
+
+#Display players level
+def playerLevel_display(text):
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',20)
+    TextSurf, TextRect = text_objects2(text, fontObj2)
+    TextRect.center = (972,383)
+    screen.blit(TextSurf, TextRect)
+
+def playerHP_display(text):
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',15)
+    TextSurf, TextRect = text_objects2(text, fontObj2)
+    TextRect.center = (935,417)
+    screen.blit(TextSurf, TextRect)
 
 bg = pygame.image.load("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/battlebg.png")
 background_colour = (255,255,255)
@@ -25,6 +80,35 @@ running = True
 FPS = 60
 clock = pygame.time.Clock()
 
+'''Selection object'''
+class Selector(pygame.sprite.Sprite):
+    def __init__(self, image):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.center  = (width / 2, height / 2)
+        self.movex = 0 #Move along X
+        self.movey = 0 #Move along Y
+        self.frame = 0 #Count frames
+
+    #Draws image to screen
+    def draw(self,surface,destination):
+        surface.blit(self.image,destination)
+
+    #Resize image
+    def scale(self,wdth,hght):
+        pygame.transform.scale(self.image,(wdth,hght))
+
+    def control(self, x,y):
+        '''Control player movement'''
+        self.movex += x
+        self.movey += y
+
+
+    def update(self):
+        '''Update sprite position'''
+        self.rect.x = self.rect.x + self.movex
+        self.rect.y = self.rect.y + self.movey
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pokemonImage):
@@ -189,7 +273,19 @@ while running:
     taskBar.image = pygame.transform.scale(taskBar.image,(450,125))
     taskBar.draw(screen, (550,439))
 
-    #
+    '''Initialize Menu Text'''
+    oppName_display(f"{charmander.name}")
+    oppLevel_display(f"{charmander.level}")
+    playerName_display(f"{squirtle.name}")
+    playerLevel_display(f"{squirtle.level}")
+    playerHP_display(f"{squirtle.current_HP} / {squirtle.hp}")
+    message_display(f"What will {squirtle.name} do?")
+
+    '''Initialize Selector'''
+    selector = Selector("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/selectionPicker.png")
+    selector.image = pygame.transform.scale(selector.image,(24,30))
+    selector.draw(screen, (578, 470))
+    
 
     pygame.display.update()
     #squirtle.battle(charmander)
@@ -203,3 +299,22 @@ while running:
             sys.exit()
             running=False
 
+        #Moves seelctor around the screen by rewriting it
+        if event.type == pygame.KEYDOWN:
+            if event.key == ord('w'):
+                #Move selector up, prepare for selection
+                selector.draw(screen, (578, 500))
+                selector.control(0,30)
+                
+                pass
+            if event.key == ord('a'):
+                #Move selector left
+                pass
+            if event.key == ord('s'):
+                #Move selector down:
+                pass
+            if event.key == ord('d'):
+                #Move selector right
+                pass
+        selector.update()
+        pygame.display.update()

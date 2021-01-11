@@ -80,6 +80,21 @@ running = True
 FPS = 60
 clock = pygame.time.Clock()
 
+'''Fade for Run'''
+
+def fade(width, height): 
+    fade = pygame.Surface((width, height))
+    fade.fill((black))
+    for alpha in range(0, 300):
+        fade.set_alpha(alpha)
+        redrawWindow()
+        screen.blit(fade, (0,0))
+        pygame.display.update()
+        pygame.time.delay(5)
+
+def redrawWindow():
+    screen.fill(white)
+
 '''Selection object'''
 class Selector(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -160,16 +175,28 @@ class TaskBar(pygame.sprite.Sprite):
         pygame.transform.scale(self.image,(wdth,hght))
 
 
-    '''Controller Functionality'''
-arrayX = [{'cursor':(578,470),'action': 'Attack'},{'cursor':(820,470),'action':'Bag'}] #Attack or Bag # Selects the specific function
-arrayY = [{'cursor':(578,500),'action':'Pokemon',},{'cursor':(820,500),'action':'Run'}] #Pokemon or RUn
+class BattleBar(pygame.sprite.Sprite):
+    def __init__(self,image):
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.center = (width/2,height/2)
+
+    def draw(self, surface, destination):
+        surface.blit(self.image,destination)
+    def scale(self,wdth,hght):
+        pygame.transform.scale(self.image,(wdth,hght))
+
+
+
+'''Controller Functionality'''
+arrayX = [{'cursor':(578,470),'action': 'Attack'},{'cursor':(791,470),'action':'Bag'}] #Attack or Bag # Selects the specific function
+arrayY = [{'cursor':(578,510),'action':'Pokemon',},{'cursor':(791,510),'action':'Run'}] #Pokemon or RUn
 controller = [arrayX,arrayY]
 
 indexX = 0
 indexY = 0 #Chooses if we select from array x or array y
 
 def helper(num): #Holds everything within either 0 or 1
-    print('Helper was called')
     if num < 0:
         return 1
     elif num >= 2:
@@ -290,6 +317,10 @@ taskBar = TaskBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites
 taskBar.image = pygame.transform.scale(taskBar.image,(450,125))
 taskBar.draw(screen, (550,439))
 
+'''Initialize Battle Bar'''
+battleBar = BattleBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/MoveSelection.png")
+battleBar.image = pygame.transform.scale(battleBar.image,(width,125))
+
 '''Initialize Menu Text'''
 oppName_display(f"{charmander.name}")
 oppLevel_display(f"{charmander.level}")
@@ -355,12 +386,29 @@ while running:
             if event.key == ord('\r'):
                 action = controller[indexY][indexX]['action']
                 if action == 'Attack':
+                    battleBar.draw(screen, (0,439))
                     print('We made it! Back end time!')
                 if action == 'Bag':
+                    battleBar.draw(screen, (0,439))
                     print('We made it! Back end time!')
-                if action == 'Run':
+                if action == 'Run': #Upon success, closes the game
+                    MainBar.draw(screen, (0,439))
+                    escapeChance = random.randint(1,60)
+                    if escapeChance >= 30:
+                        message_display('You escaped!')
+                        pygame.display.update()
+                        pygame.time.wait(1000)
+                        fade(width,height)
+                        pygame.time.wait(600)
+                        pygame.quit()
+                        sys.exit()
+                        running=False
+                    else:
+                        message_display('You could\'t get away!')
+                        pygame.time.wait(60)
                     print('We made it! Back end time!')
                 if action == 'Pokemon':
+                    battleBar.draw(screen, (0,439))
                     print('We made it! Back end time!')
     pygame.display.update()
         

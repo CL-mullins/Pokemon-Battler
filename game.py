@@ -11,10 +11,11 @@ import pandas as pd
 from pokemon import Pokemon
 
 
+#fontObj = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',16)
 
 bg = pygame.image.load("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/battlebg.png")
 background_colour = (255,255,255)
-(width, height) = (300, 200)
+(width, height) = (1000, 564) #Image dimensions are 250 x 141 so I scale to 400% of it
 picture = pygame.transform.scale(bg, (width, height))
 screen = pygame.display.set_mode((width, height))
 screen.fill(background_colour)
@@ -49,8 +50,29 @@ class HPBar(pygame.sprite.Sprite):
     def draw(self, surface, destination):
         surface.blit(self.image,destination)
 
-def addToScreen(image, surface, destination):
-    surface.blit(image, destination)
+class TextBar(pygame.sprite.Sprite):
+    def __init__(self, image):
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.center = (width/2, height/2)
+
+    def draw(self, surface, destination):
+        surface.blit(self.image,destination)
+
+    def scale(self,wdth,hght):
+        pygame.transform.scale(self.image,(wdth,hght))
+
+class TaskBar(pygame.sprite.Sprite):
+    def __init__(self,image):
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.center = (width/2, height/2)
+
+    def draw(self, surface, destination):
+        surface.blit(self.image,destination)
+
+    def scale(self,wdth,hght):
+        pygame.transform.scale(self.image,(wdth,hght))
 
 
 while running:
@@ -128,30 +150,46 @@ while running:
 
     '''Initializes  Pokemon as Players'''
     #Player
-    player = Player(squirtle.image)
+    player = Player(squirtle.image) #96 x 96 Image Resolution
     #Opponent
-    player2 = Player(charmander.image)
+    player2 = Player(charmander.image) #96 x 96 Image Resolution
     #Resize (scale) sprite for game window resolution
     '''Scales Pokemon to Screen '''
 
-    player.image = pygame.transform.scale(player.image,(150,150))
-    player2.image = pygame.transform.scale(player2.image, (125,125))
+    player.image = pygame.transform.scale(player.image,(384,384))
+    player2.image = pygame.transform.scale(player2.image, (384,384))
 
     '''Draws Pokemon onto Screen '''
     #Draws player pokemon
-    player.draw(screen,(5,115))
+    player.draw(screen,(5,250))
     #Draws opponent pokemon
-    player2.draw(screen,(165,35))
+    player2.draw(screen,(575,60))
     #Destination of player's Pokemon should be determined by the battle location spot
 
     '''Draws HP Bars onto Screen '''
     #Player HP Bar
     playerHPBar = HPBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/[T]PlayerHPBar.png")
-    playerHPBar.draw(screen,(175,115))
+    playerHPBar.image = pygame.transform.scale(playerHPBar.image,(300,75))
+    playerHPBar.draw(screen,(700,364))
 
     #Opponent HP Bar
     opponentHPBar = HPBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/[T]OpponentHPBar.png")
-    opponentHPBar.draw(screen,(50,75))
+    opponentHPBar.image = pygame.transform.scale(opponentHPBar.image,(300,75))
+    opponentHPBar.draw(screen,(200,125))
+
+    '''Draw text screen'''
+    #Player text screen
+    MainBar = TextBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/BaseTextMenu.png")
+
+    #Scale MainBar
+    MainBar.image = pygame.transform.scale(MainBar.image,(width,125))
+    MainBar.draw(screen, (0,439))
+
+    taskBar = TaskBar("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/TaskMenu.png") #119 x 47
+    taskBar.image = pygame.transform.scale(taskBar.image,(450,125))
+    taskBar.draw(screen, (550,439))
+
+    #
 
     pygame.display.update()
     #squirtle.battle(charmander)

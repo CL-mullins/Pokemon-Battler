@@ -12,6 +12,11 @@ Attack Menu
 
 ![Attack Menu](https://github.com/CL-mullins/Pokemon-Battler/blob/main/screenshots/Attack%20Menu.png?raw=true)
 
+
+Interactable User Interface
+
+! [UI](https://github.com/CL-mullins/Pokemon-Battler/blob/main/screenshots/Screen%20Shot%202021-01-11%20at%206.01.24%20PM.png)
+
 TODO: Trying to integrate battle & attack methods with this type chart dictionary data.
 
 Theres a Pokemon class which contains:

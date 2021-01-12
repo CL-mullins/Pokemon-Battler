@@ -68,6 +68,40 @@ def playerHP_display(text):
     TextRect.center = (935,417)
     screen.blit(TextSurf, TextRect)
 
+
+    Row2 = 510 
+def writeMove1(txt):
+    Row1 = 470
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(txt.capitalize(), fontObj2)
+    TextRect.center = (125,Row1+10)
+    screen.blit(TextSurf, TextRect)  
+
+def writeMove2(txt):
+    Row1 = 470
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(txt.capitalize(), fontObj2)
+    TextRect.center = (425,Row1+10)
+    screen.blit(TextSurf, TextRect)  
+
+def writeMove3(txt):
+    Row1 = 510
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(txt.capitalize(), fontObj2)
+    TextRect.center = (125,Row1+10)
+    screen.blit(TextSurf, TextRect)  
+
+def writeMove4(txt):
+    Row1 = 510
+    fontObj2 = pygame.font.Font('/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/assets/pkmnrs.ttf',25)
+    TextSurf, TextRect = text_objects2(txt.capitalize(), fontObj2)
+    TextRect.center = (425,Row1+10)
+    screen.blit(TextSurf, TextRect) 
+
+
+
+     
+
 bg = pygame.image.load("/Users/chrismullins/dev/courses/cs1.1/Pokemon-Battler/sprites/battlebg.png")
 background_colour = (255,255,255)
 (width, height) = (1000, 564) #Image dimensions are 250 x 141 so I scale to 400% of it
@@ -387,10 +421,13 @@ while running:
                 action = controller[indexY][indexX]['action']
                 if action == 'Attack':
                     battleBar.draw(screen, (0,439))
-                    print('We made it! Back end time!')
+                    writeMove1(f'{str(squirtle.moves[0].name)}')
+                    writeMove2(f'{str(squirtle.moves[1].name)}')
+                    writeMove3(f'{str(squirtle.moves[2].name)}')
+                    writeMove4(f'{str(squirtle.moves[3].name)}')
+                    
                 if action == 'Bag':
                     battleBar.draw(screen, (0,439))
-                    print('We made it! Back end time!')
                 if action == 'Run': #Upon success, closes the game
                     MainBar.draw(screen, (0,439))
                     escapeChance = random.randint(1,60)
@@ -406,9 +443,9 @@ while running:
                     else:
                         message_display('You could\'t get away!')
                         pygame.time.wait(60)
-                    print('We made it! Back end time!')
+
                 if action == 'Pokemon':
                     battleBar.draw(screen, (0,439))
-                    print('We made it! Back end time!')
+
     pygame.display.update()
         

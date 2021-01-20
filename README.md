@@ -1,4 +1,4 @@
-A fun Pokemon Battler inspired by the Superhero Dueler done for class / intensive
+A fun Pokemon Battler inspired by the Superhero Dueler done for class / intensive also inspired by Zarel's Pokemon Showdown [https://pokemonshowdown.com/]
 
 
 ***MEDIA***
@@ -19,6 +19,10 @@ Attack Menu
 Interactable User Interface
 
 ! [UI](https://github.com/CL-mullins/Pokemon-Battler/blob/main/screenshots/Screen%20Shot%202021-01-11%20at%206.01.24%20PM.png)
+
+Youtube Explanation
+
+UNDER CONSTRUCTION
 
 
 ***END OF MEDIA***

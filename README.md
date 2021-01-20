@@ -1,5 +1,8 @@
 A fun Pokemon Battler inspired by the Superhero Dueler done for class / intensive
 
+
+***MEDIA***
+
 Screenshots:
 
 Main Menu
@@ -17,7 +20,12 @@ Interactable User Interface
 
 ! [UI](https://github.com/CL-mullins/Pokemon-Battler/blob/main/screenshots/Screen%20Shot%202021-01-11%20at%206.01.24%20PM.png)
 
-TODO: Trying to integrate battle & attack methods with this type chart dictionary data.
+
+***END OF MEDIA***
+
+
+***BREAKDOWN***
+
 
 Theres a Pokemon class which contains:
     The Pokemon (it's name)
@@ -55,3 +63,10 @@ Theres a Battle class which contains:
     Fight(): battles two Pokemon against eachother and rewards XP to the participating Pokemon
     Switch(): Switches participating Pokemon 
 
+Theres a GUI I created with PyGame:
+    Allows for the user to choose between Fight, Pokemon, Bag, and Run options
+    Has sprite representations for the terminal battles
+    Does not include all back end functionality
+
+
+***END OF BREAKDOWN***
